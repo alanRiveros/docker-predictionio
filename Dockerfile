@@ -1,10 +1,10 @@
 FROM ubuntu
-MAINTAINER Steven Yan
+MAINTAINER Alan Riveros <alan.gabriel.riveros@gmail.com>
 
 ENV PIO_VERSION 0.10.0
 ENV SPARK_VERSION 1.5.1
-ENV ELASTICSEARCH_VERSION 1.4.4
-ENV HBASE_VERSION 1.0.0
+ENV ELASTICSEARCH_VERSION 1.7.3
+ENV HBASE_VERSION 1.2.4
 
 ENV PIO_HOME /PredictionIO-${PIO_VERSION}-incubating
 ENV PATH=${PIO_HOME}/bin:$PATH
@@ -36,7 +36,7 @@ RUN curl -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elast
     && echo 'cluster.name: predictionio' >> ${PIO_HOME}/vendors/elasticsearch-${ELASTICSEARCH_VERSION}/config/elasticsearch.yml \
     && echo 'network.host: 127.0.0.1' >> ${PIO_HOME}/vendors/elasticsearch-${ELASTICSEARCH_VERSION}/config/elasticsearch.yml
 
-RUN curl -O http://archive.apache.org/dist/hbase/hbase-${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
+RUN curl -O http://archive.apache.org/dist/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
     && tar -xvzf hbase-${HBASE_VERSION}-bin.tar.gz -C ${PIO_HOME}/vendors \
     && rm hbase-${HBASE_VERSION}-bin.tar.gz
 COPY files/hbase-site.xml ${PIO_HOME}/vendors/hbase-${HBASE_VERSION}/conf/hbase-site.xml
@@ -51,19 +51,3 @@ RUN sed -i "s|VAR_PIO_HOME|${PIO_HOME}|" ${PIO_HOME}/vendors/hbase-${HBASE_VERSI
 #
 #RUN pip install -U setuptools
 #RUN pip install predictionio
-
-
-#prepare example: Demo-Tapster
-#RUN apt-get install git ruby build-essential make
-#RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-#RUN curl -L https://get.rvm.io | bash -s stable
-#RUN touch ~/.bash_profile
-#RUN export PATH=$PATH:/usr/local/rvm/bin:/usr/local/rvm/sbin
-#RUN source ~/.bash_profile
-#RUN rvm install ruby-2.2.2
-#RUN ln -s /usr/local/rvm/rubies/ruby-2.2.2/bin/ruby /usr/bin/ruby
-#
-#RUN gem install bundler
-#RUN git clone https://github.com/PredictionIO/Demo-Tapster.git
-#RUN cd Demo-Tapster
-#RUN bundle install
