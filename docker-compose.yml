@@ -1,0 +1,12 @@
+version: '2'
+services:
+    prediction:
+        build: prediction/
+        ports:
+            - "8000:8000"
+            - "7070:7070"
+        volumes:
+            - /code/dockerPrediction/data/elastic/data/:/PredictionIO-0.10.0-incubating/vendors/elasticsearch-1.7.3/data/
+            - /code/dockerPrediction/data/spark/data/:/PredictionIO-0.10.0-incubating/vendors/spark-1.5.1-bin-hadoop2.6/data
+            - /code/dockerPrediction/engines/:/PredictionIO-0.10.0-incubating/engines/
+        command: bash -c "while true; do echo hello; sleep 2; done"
